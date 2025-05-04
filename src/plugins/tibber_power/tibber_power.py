@@ -57,7 +57,7 @@ class TibberPower(BasePlugin):
             "current_price_level": tibber_data["current"][1],
             "current_price_time": tibber_data["current"][2],
             "price_unit": "EUR/kWh",
-            "forcast": {"dates": dates, "prices": prices},
+            "forecast": {"dates": dates, "prices": prices},
             "low_time_windows": low_time_windows,
         }
         return data
