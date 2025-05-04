@@ -37,7 +37,7 @@
     },
     {
         "display_name": "Tibber",
-        "id": "tibber",
-        "class": "Tibber"
+        "id": "tibber_power",
+        "class": "TibberPower"
     }
 ]

@@ -1,0 +1,87 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+    <div class="now-container">
+    <!-- Current Power -->
+    <div class="current-power-price">
+      <div class="current-price-label">Strompreis ab {{ current_price_time }}</div>
+      <div class="current-price-value">{{ current_price }} {{ price_unit }}</div>
+      <div class="current-price-value">Preis Niveau: {{ current_price_level }}</div>
+    </div>
+
+    <!-- Data Points Grid (Sunset, Wind, UV, etc.) -->
+    <div class="data-points">
+    <div>Günstige Zeitfenster:</div>
+      {% for win in low_time_windows %}
+        <div>Von {{ win[0] }} bis {{ win[1] }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+      <div class="chart-container">
+    <canvas id="hourlyPriceChart"></canvas>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const canvas = document.getElementById('hourlyPriceChart');
+    const ctx = canvas.getContext('2d');
+
+    const stepData = {
+      labels: {{ forecast.dates }},
+      datasets: [{
+        label: "Price (€/kWh)",
+        data: {{ forecast.prices }},
+        borderColor: "blue",
+        borderWidth: 2,
+        stepped: true, // Create a stepped line
+        fill: false
+      }]
+    };
+
+    const stepOptions = {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true
+        },
+        title: {
+          display: true,
+          text: "Electricity Price Forecast"
+        },
+        tooltip: {
+          callbacks: {
+            label: context => `Price: ${context.raw} €/kWh`
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Time"
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Price (€/kWh)"
+          },
+          beginAtZero: false
+        }
+      }
+    };
+
+    new Chart(ctx, {
+      type: "line",
+      data: stepData,
+      options: stepOptions
+    });
+  });
+</script>
+{% endblock %}
+
+
+
