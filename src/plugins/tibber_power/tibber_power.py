@@ -1,6 +1,6 @@
 import asyncio
 
-from src.plugins.base_plugin.base_plugin import BasePlugin
+from plugins.base_plugin.base_plugin import BasePlugin
 from datetime import datetime, timedelta
 import pytz
 import tibber
